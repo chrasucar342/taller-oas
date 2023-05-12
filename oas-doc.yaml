@@ -1,0 +1,78 @@
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  title: ProjectionHomes
+  description: API OasTools 
+
+paths:
+  /api/v1/projectionhomess:
+    x-router-controller: projectionhomessController
+    get:
+      description: Returns all projectionhomess
+      operationId: getProjectionhomess
+      responses:
+        200:
+          description: Projectionhomes list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/projectionhomes'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+  /api/v1/projectionhomess/{year}:
+    x-router-controller: projectionhomessController
+    get:
+      description: Returns a single projectionhomes by its year
+      operationId: findByyear
+      parameters:
+        - required: true
+          name: year
+          description: year of the projectionhomes to fetch
+          in: path
+          schema:
+            type: number
+      responses:
+        200:
+          description: Projectionhomes found by year
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/projectionhomes'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+
+components:
+  schemas:
+    projectionhomes:
+        type: object
+        required:
+          - year
+        properties:
+          province:
+            type: string
+          year:
+            type: number
+          couple_children:
+            type: number
+          couple_nochildren:
+            type: number
+          single_parent:
+            type: number
+    error:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+      additionalProperties: true
